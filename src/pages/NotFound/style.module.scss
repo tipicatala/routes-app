@@ -1,0 +1,33 @@
+.error {
+  color: rgba(234, 244, 255, 1);
+  font-weight: 900;
+  font-size: 180px;
+  line-height: 226px;
+}
+
+.Oops {
+  color: rgba(122, 135, 168, 1);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 140%;
+}
+
+.notFound {
+  color: rgba(122, 135, 168, 1);
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 140%;
+  white-space: break-spaces;
+  margin-top: 12px;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.back {
+  cursor: pointer;
+  color: rgba(23, 129, 245, 1);
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 140%;
+  font-feature-settings: "tnum" on, "lnum" on;
+}
