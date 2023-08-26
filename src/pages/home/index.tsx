@@ -1,24 +1,72 @@
-import { TextField, Button } from '@mui/material';
-import { useState } from 'react';
+import { useState, useEffect } from "react";
+import {
+  useLocation,
+  useNavigate,
+  useSearchParams,
+  createSearchParams,
+} from "react-router-dom";
+import { TextField, Button, Typography } from "@mui/material";
 
 const Home: React.FC = () => {
-  const [data, setData] = useState({ change: [''], from: '' })
-  const handleSubmit = () => {}
-  
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const [data, setData] = useState({
+    changes: [""],
+    from: "",
+    to: "",
+    date: "",
+    passengers: 1,
+  });
+
+  const parseQueryParams = () => {
+    const queryParams = Object.fromEntries(searchParams.entries());
+    setData({
+      from: queryParams.from || "",
+      changes: queryParams.changes?.split(", ") || [""],
+      to: queryParams.to || "",
+      date: queryParams.date || "",
+      passengers: parseInt(queryParams.passengers || "1", 10),
+    });
+  };
+
+  useEffect(() => {
+    parseQueryParams();
+  }, [location.search]);
+
+  const handleSubmit = () => {
+    navigate({
+      pathname: "results",
+      search: createSearchParams({
+        ...data,
+        passengers: data.passengers.toString(),
+      }).toString(),
+    });
+  };
+
   return (
     <div>
-      <h1>Search Form</h1>
+      <Typography variant="h4">Search Form</Typography>
       <form onSubmit={handleSubmit}>
         <TextField
           label="From"
-          value={data}
-          onChange={e => setData({ ...data, from: e.target.value })}
+          value={data.from}
+          onChange={(e) => setData({ ...data, from: e.target.value })}
           required
         />
         <TextField
           label="Change cities"
-          value={data.change.join(', ')}
-          onChange={e => setData({ ...data, change: e.target.value.split(', ') })}
+          value={data.changes.join(", ")}
+          onChange={(e) =>
+            setData({ ...data, changes: e.target.value.split(", ") })
+          }
+        />
+        <TextField
+          label="To"
+          value={data.to}
+          onChange={(e) => setData({ ...data, to: e.target.value })}
+          required
         />
         <Button variant="contained" color="primary" type="submit">
           Search

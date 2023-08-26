@@ -11,9 +11,9 @@ interface Distance {
   distance: number;
 }
 
-interface APIResponse<T> {
-  data: T;
-}
+// interface APIResponse<T> {
+//   data: T;
+// }
 
 const cityDataArray: [string, number, number][] = [
   ['Paris', 48.856614, 2.352222],
