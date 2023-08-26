@@ -57,3 +57,36 @@ export const searchCities = async (keyword: string): Promise<City[]> => {
 
   return filteredCities;
 };
+
+
+export const calculateDistance = async (cityNames: string[]): Promise<{ totalDistance: number; distances: Distance[] }> => {
+  await simulateDelay(800);
+
+  if (cityNames.includes('Dijon')) {
+    throw new Error('Failed to calculate distance.');
+  }
+
+  const selectedCities = citiesDatabase.filter(city => cityNames.includes(city.name));
+
+  const distances: Distance[] = selectedCities.slice(0, -1).map((cityA, index) => {
+    const cityB = selectedCities[index + 1];
+    const distance = haversineDistance(cityA.lat, cityA.lon, cityB.lat, cityB.lon);
+    return { from: cityA.name, to: cityB.name, distance };
+  });
+
+  const totalDistance = distances.reduce((total, current) => total + current.distance, 0);
+
+  return { totalDistance, distances };
+};
+
+const haversineDistance = (lat1: number, lon1: number, lat2: number, lon2: number): number => {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * (Math.PI / 180);
+  const dLon = (lon2 - lon1) * (Math.PI / 180);
+  const a =
+    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  const distance = R * c;
+  return distance;
+};
