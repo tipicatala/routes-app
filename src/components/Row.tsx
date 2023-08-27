@@ -12,7 +12,7 @@ interface Row {
 const Row = ({ leftIcon, input, rightIcon }: Row) => {
   return (
     <Grid container alignItems="center" marginBottom={2}>
-      <Grid item width={40} textAlign={"center"} marginRight={1}>
+      <Grid item width={40} textAlign={"center"} marginRight={1} position={"relative"}>
         {leftIcon}
       </Grid>
       <Grid item xs>

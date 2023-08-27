@@ -22,7 +22,7 @@ import {
   Add as AddIcon,
   LocationOn as LocationOnIcon,
   Remove as RemoveIcon,
-  MoreVert as MoreVertIcon,
+  Circle as CircleIcon,
 } from "@mui/icons-material";
 
 import { citiesDatabase } from "@/services/api";
@@ -110,7 +110,7 @@ const Home: React.FC = () => {
 
   return (
     <Container component={Paper} style={{ padding: "20px", maxWidth: "600px" }}>
-      <Typography variant="h4">Search Form</Typography>
+      <Row input={<Typography variant="h4">Search Form</Typography>}/>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <form onSubmit={handleSubmit}>
@@ -137,7 +137,7 @@ const Home: React.FC = () => {
                     )}
                   />
                 }
-                leftIcon={<LocationOnIcon />}
+                leftIcon={<LocationOnIcon color={"primary"}/>}
               />
               {data.changes.map((city, index) => (
                 <Row
@@ -165,7 +165,9 @@ const Home: React.FC = () => {
                   }
                   leftIcon={
                     <>
-                      <Dots/>
+                      <Dots style={{ position: "absolute", top: "-55px", transform: "translate(-50%, 0)" }} />
+                      <CircleIcon style={{ position: "absolute", top: "-8px", width: "12px", height: "12px", transform: "translate(-50%, 0)"}} color="primary"/>
+                      <Dots style={{ position: "absolute", bottom: "-54px", transform: "translate(-50%, 0)" }} />
                     </>
                   }
                   rightIcon={
@@ -200,7 +202,7 @@ const Home: React.FC = () => {
                     )}
                   />
                 }
-                leftIcon={<LocationOnIcon />}
+                leftIcon={<LocationOnIcon color="secondary"/>}
               />
               <Row
                 leftIcon={
