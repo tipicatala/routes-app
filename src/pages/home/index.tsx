@@ -94,7 +94,7 @@ const Home: React.FC = () => {
   };
 
   const handleAddChangesCityField = () => {
-    setData({ ...data, changes: [...data.changes, ""] });
+    setData({ ...data, changes: [...data.changes, ''] });
   };
 
   const handleChangesCityChange = (index: number, value: string) => {
@@ -107,6 +107,7 @@ const Home: React.FC = () => {
     const updatedChanges = data.changes.filter((_, i) => i !== index);
     setData({ ...data, changes: updatedChanges });
   };
+
 
   return (
     <Container component={Paper} style={{ padding: "20px", maxWidth: "600px" }}>
@@ -147,7 +148,7 @@ const Home: React.FC = () => {
                       options={filteredCities}
                       loading={loadingCities}
                       onInputChange={(_, value) =>
-                        handleChangesCityChange(index, value)
+                        handleCityInputChange(_, value)
                       }
                       value={city}
                       onChange={(_, value) =>

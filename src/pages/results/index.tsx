@@ -23,9 +23,11 @@ const Results: React.FC = () => {
     | Record<string, never>
   >({});
 
+  console.log(queryParams, searchParams)
+
   useEffect(() => {
     const selectedCities = queryParams.changes
-      ? [queryParams.from, ...queryParams.changes.split(","), queryParams.to]
+      ? [queryParams.from, ...queryParams.changes, queryParams.to]
       : [queryParams.from, queryParams.to];
 
     calculateDistance(selectedCities)
