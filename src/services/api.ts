@@ -5,7 +5,7 @@ interface City {
   lon: number;
 }
 
-interface Distance {
+export interface Distance {
   from: string;
   to: string;
   distance: number;
