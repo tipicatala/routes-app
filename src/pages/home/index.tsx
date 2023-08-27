@@ -5,12 +5,24 @@ import {
   useSearchParams,
   createSearchParams,
 } from "react-router-dom";
-import { TextField, Button, Typography, Grid, Container } from "@mui/material";
+import {
+  TextField,
+  Button,
+  Typography,
+  Grid,
+  Container,
+  Autocomplete,
+} from "@mui/material";
+
+import { citiesDatabase } from "@/services/api";
 
 const Home: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+
+  const [filteredCities, setFilteredCities] = useState<string[]>([]);
+  const [loadingCities, setLoadingCities] = useState<boolean>(false);
 
   const [data, setData] = useState({
     changes: [""],
@@ -45,19 +57,53 @@ const Home: React.FC = () => {
     });
   };
 
+  const handleCityInputChange = (
+    event: React.ChangeEvent<object>,
+    value: string
+  ) => {
+    if (value) {
+      setLoadingCities(true);
+      // API call for city suggestions
+      setTimeout(() => {
+        const suggestions = citiesDatabase
+          .filter((city) =>
+            city.name.toLowerCase().includes(value.toLowerCase())
+          )
+          .map((city) => city.name);
+
+        setFilteredCities(suggestions);
+        setLoadingCities(false);
+      }, 300);
+    } else {
+      setFilteredCities([]);
+    }
+  };
+
   return (
     <div>
       <Container>
-      <Typography variant="h4">Search Form</Typography>
+        <Typography variant="h4">Search Form</Typography>
         <Grid item xs={12}>
           <form onSubmit={handleSubmit}>
-            <TextField
-              label="From"
+            <Autocomplete
+              id="From"
+              options={filteredCities}
+              loading={loadingCities}
+              onInputChange={handleCityInputChange}
               value={data.from}
-              onChange={(e) => setData({ ...data, from: e.target.value })}
-              required
-              fullWidth
-              sx={{ marginBottom: 2 }}
+              onChange={(event, value) =>
+                setData({ ...data, from: value || "" })
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="From"
+                  required
+                  variant="outlined"
+                  fullWidth
+                  sx={{ marginBottom: 2 }}
+                />
+              )}
             />
             <TextField
               fullWidth
@@ -68,13 +114,25 @@ const Home: React.FC = () => {
                 setData({ ...data, changes: e.target.value.split(", ") })
               }
             />
-            <TextField
-              sx={{ marginBottom: 2 }}
-              fullWidth
-              label="To"
+            <Autocomplete
+              id="To"
+              options={filteredCities}
+              loading={loadingCities}
+              onInputChange={handleCityInputChange}
               value={data.to}
-              onChange={(e) => setData({ ...data, to: e.target.value })}
-              required
+              onChange={(event, value) =>
+                setData({ ...data, to: value || "" })
+              }
+              renderInput={(params) => (
+                <TextField
+                  {...params}
+                  label="To"
+                  required
+                  variant="outlined"
+                  fullWidth
+                  sx={{ marginBottom: 2 }}
+                />
+              )}
             />
             <TextField
               label="Date of Trip"

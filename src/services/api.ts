@@ -38,7 +38,7 @@ const cityDataArray: [string, number, number][] = [
   ['Aix-en-Provence', 43.529742, 5.447427],
 ];
 
-const citiesDatabase: City[] = cityDataArray.map(([name, lat, lon]) => ({ name, lat, lon }));
+export const citiesDatabase: City[] = cityDataArray.map(([name, lat, lon]) => ({ name, lat, lon }));
 
 const simulateDelay = (ms: number) => new Promise<void>(resolve => setTimeout(resolve, ms));
 
