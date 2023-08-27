@@ -37,14 +37,13 @@ const Results: React.FC = () => {
   }, [queryParams]);
 
   return (
-    <Container component={Paper} maxWidth="md" style={{ padding: "20px" }}>
+    <Container component={Paper} style={{ padding: "20px" }}>
       <Typography variant="h4">Search Results</Typography>
       {!resultData ? (
         <Typography variant="body1">
           An error occurred while calculating distances.
         </Typography>
-      ) : null}
-      {resultData && Object.keys(resultData).length ? (
+      ) : Object.keys(resultData).length ? (
         <div>
           <Typography variant="h6">Search Criteria:</Typography>
           <List>

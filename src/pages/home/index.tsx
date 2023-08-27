@@ -12,9 +12,23 @@ import {
   Grid,
   Container,
   Autocomplete,
+  Paper,
+  CircularProgress,
+  IconButton,
+  Chip,
+  InputAdornment,
 } from "@mui/material";
+import {
+  Add as AddIcon,
+  LocationOn as LocationOnIcon,
+  Remove as RemoveIcon,
+  MoreVert as MoreVertIcon,
+} from "@mui/icons-material";
 
 import { citiesDatabase } from "@/services/api";
+import { Dots } from "@/assets";
+
+import Row from "@/components/Row";
 
 const Home: React.FC = () => {
   const location = useLocation();
@@ -79,95 +93,158 @@ const Home: React.FC = () => {
     }
   };
 
+  const handleAddChangesCityField = () => {
+    setData({ ...data, changes: [...data.changes, ""] });
+  };
+
+  const handleChangesCityChange = (index: number, value: string) => {
+    const updatedChanges = [...data.changes];
+    updatedChanges[index] = value;
+    setData({ ...data, changes: updatedChanges });
+  };
+
+  const handleRemoveChangesCityField = (index: number) => {
+    const updatedChanges = data.changes.filter((_, i) => i !== index);
+    setData({ ...data, changes: updatedChanges });
+  };
+
   return (
-    <div>
-      <Container>
-        <Typography variant="h4">Search Form</Typography>
+    <Container component={Paper} style={{ padding: "20px", maxWidth: "600px" }}>
+      <Typography variant="h4">Search Form</Typography>
+      <Grid container spacing={2}>
         <Grid item xs={12}>
           <form onSubmit={handleSubmit}>
-            <Autocomplete
-              id="From"
-              options={filteredCities}
-              loading={loadingCities}
-              onInputChange={handleCityInputChange}
-              value={data.from}
-              onChange={(event, value) =>
-                setData({ ...data, from: value || "" })
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="From"
-                  required
-                  variant="outlined"
-                  fullWidth
-                  sx={{ marginBottom: 2 }}
+            <Grid container alignItems="center">
+              <Row
+                input={
+                  <Autocomplete
+                    id="From"
+                    options={filteredCities}
+                    loading={loadingCities}
+                    onInputChange={handleCityInputChange}
+                    value={data.from}
+                    onChange={(event, value) =>
+                      setData({ ...data, from: value || "" })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="From"
+                        required
+                        variant="outlined"
+                        fullWidth
+                      />
+                    )}
+                  />
+                }
+                leftIcon={<LocationOnIcon />}
+              />
+              {data.changes.map((city, index) => (
+                <Row
+                  input={
+                    <Autocomplete
+                      id={`Changes-${index}`}
+                      options={filteredCities}
+                      loading={loadingCities}
+                      onInputChange={(_, value) =>
+                        handleChangesCityChange(index, value)
+                      }
+                      value={city}
+                      onChange={(_, value) =>
+                        handleChangesCityChange(index, value || "")
+                      }
+                      renderInput={(params) => (
+                        <TextField
+                          {...params}
+                          label={`Changes City ${index + 1}`}
+                          variant="outlined"
+                          fullWidth
+                        />
+                      )}
+                    />
+                  }
+                  leftIcon={
+                    <>
+                      <Dots/>
+                    </>
+                  }
+                  rightIcon={
+                    <IconButton
+                      onClick={() => handleRemoveChangesCityField(index)}
+                    >
+                      <RemoveIcon />
+                    </IconButton>
+                  }
                 />
-              )}
-            />
-            <TextField
-              fullWidth
-              label="Change cities"
-              sx={{ marginBottom: 2 }}
-              value={data.changes.join(", ")}
-              onChange={(e) =>
-                setData({ ...data, changes: e.target.value.split(", ") })
-              }
-            />
-            <Autocomplete
-              id="To"
-              options={filteredCities}
-              loading={loadingCities}
-              onInputChange={handleCityInputChange}
-              value={data.to}
-              onChange={(event, value) =>
-                setData({ ...data, to: value || "" })
-              }
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="To"
-                  required
-                  variant="outlined"
-                  fullWidth
-                  sx={{ marginBottom: 2 }}
-                />
-              )}
-            />
-            <TextField
-              label="Date of Trip"
-              type="date"
-              value={data.date}
-              onChange={(e) => setData({ ...data, date: e.target.value })}
-              required
-              fullWidth
-              sx={{ marginBottom: 2 }}
-              variant="outlined"
-              InputLabelProps={{ shrink: true }}
-            />
-            <TextField
-              label="Number of Passengers"
-              type="number"
-              value={data.passengers}
-              onChange={(e) =>
-                setData({
-                  ...data,
-                  passengers: parseInt(e.target.value, 10),
-                })
-              }
-              required
-              fullWidth
-              variant="outlined"
-              inputProps={{ min: 1 }}
-              sx={{ marginBottom: 2 }}
-            />
+              ))}
+              <Row
+                input={
+                  <Autocomplete
+                    id="To"
+                    options={filteredCities}
+                    loading={loadingCities}
+                    onInputChange={handleCityInputChange}
+                    value={data.to}
+                    onChange={(event, value) =>
+                      setData({ ...data, to: value || "" })
+                    }
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        label="To"
+                        required
+                        variant="outlined"
+                        fullWidth
+                        sx={{ marginBottom: 2 }}
+                      />
+                    )}
+                  />
+                }
+                leftIcon={<LocationOnIcon />}
+              />
+              <Row
+                leftIcon={
+                  <IconButton onClick={handleAddChangesCityField}>
+                    <AddIcon />
+                  </IconButton>
+                }
+                input={<Typography variant="h6">Add destination</Typography>}
+              />
+              <TextField
+                label="Date of Trip"
+                type="date"
+                value={data.date}
+                onChange={(e) => setData({ ...data, date: e.target.value })}
+                required
+                fullWidth
+                sx={{ marginBottom: 2 }}
+                variant="outlined"
+                InputLabelProps={{ shrink: true }}
+              />
+              <TextField
+                label="Number of Passengers"
+                type="number"
+                value={data.passengers}
+                onChange={(e) =>
+                  setData({
+                    ...data,
+                    passengers: parseInt(e.target.value, 10),
+                  })
+                }
+                required
+                fullWidth
+                variant="outlined"
+                inputProps={{ min: 1 }}
+                sx={{ marginBottom: 2 }}
+              />
+            </Grid>
             <Button variant="contained" color="primary" type="submit">
               Search
             </Button>
           </form>
         </Grid>
-      </Container>
-    </div>
+      </Grid>
+    </Container>
   );
 };
 
