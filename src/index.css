@@ -15,11 +15,20 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-image: url("@/assets/bg.png");
+  background-repeat: no-repeat;
+  background-position: center;
 }
 
 html,
-body {
+body,
+#root {
   height: 100%;
 }
 
-/* #root */
+#root {
+  /* display: flex;
+  overflow: scroll;
+  flex-wrap: wrap-reverse;
+  align-content: center; */
+}

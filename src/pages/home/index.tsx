@@ -22,7 +22,7 @@ import {
   Add as AddIcon,
   LocationOn as LocationOnIcon,
   Remove as RemoveIcon,
-  Circle as CircleIcon,
+  CircleOutlined as CircleIcon,
 } from "@mui/icons-material";
 
 import { citiesDatabase } from "@/services/api";
@@ -66,6 +66,7 @@ const Home: React.FC = () => {
       pathname: "results",
       search: createSearchParams({
         ...data,
+        changes: data.changes.join(", "),
         passengers: data.passengers.toString(),
       }).toString(),
     });
@@ -94,7 +95,7 @@ const Home: React.FC = () => {
   };
 
   const handleAddChangesCityField = () => {
-    setData({ ...data, changes: [...data.changes, ''] });
+    setData({ ...data, changes: [...data.changes, ""] });
   };
 
   const handleChangesCityChange = (index: number, value: string) => {
@@ -108,10 +109,15 @@ const Home: React.FC = () => {
     setData({ ...data, changes: updatedChanges });
   };
 
-
   return (
     <Container component={Paper} style={{ padding: "20px", maxWidth: "600px" }}>
-      <Row input={<Typography variant="h4">Search Form</Typography>}/>
+      <Row
+        input={
+          <Typography variant="h4" color="secondary.main">
+            Search Form
+          </Typography>
+        }
+      />
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <form onSubmit={handleSubmit}>
@@ -138,7 +144,7 @@ const Home: React.FC = () => {
                     )}
                   />
                 }
-                leftIcon={<LocationOnIcon color={"primary"}/>}
+                leftIcon={<LocationOnIcon color={"primary"} />}
               />
               {data.changes.map((city, index) => (
                 <Row
@@ -166,9 +172,30 @@ const Home: React.FC = () => {
                   }
                   leftIcon={
                     <>
-                      <Dots style={{ position: "absolute", top: "-55px", transform: "translate(-50%, 0)" }} />
-                      <CircleIcon style={{ position: "absolute", top: "-8px", width: "12px", height: "12px", transform: "translate(-50%, 0)"}} color="primary"/>
-                      <Dots style={{ position: "absolute", bottom: "-54px", transform: "translate(-50%, 0)" }} />
+                      <Dots
+                        style={{
+                          position: "absolute",
+                          top: "-55px",
+                          transform: "translate(-50%, 0)",
+                        }}
+                      />
+                      <CircleIcon
+                        style={{
+                          position: "absolute",
+                          top: "-8px",
+                          width: "12px",
+                          height: "12px",
+                          transform: "translate(-50%, 0)",
+                        }}
+                        color="primary"
+                      />
+                      <Dots
+                        style={{
+                          position: "absolute",
+                          bottom: "-54px",
+                          transform: "translate(-50%, 0)",
+                        }}
+                      />
                     </>
                   }
                   rightIcon={
@@ -198,50 +225,65 @@ const Home: React.FC = () => {
                         required
                         variant="outlined"
                         fullWidth
-                        sx={{ marginBottom: 2 }}
                       />
                     )}
                   />
                 }
-                leftIcon={<LocationOnIcon color="secondary"/>}
+                leftIcon={<LocationOnIcon color="primary" />}
               />
               <Row
-                leftIcon={
-                  <IconButton onClick={handleAddChangesCityField}>
-                    <AddIcon />
-                  </IconButton>
+                input={
+                  <Button
+                    variant="text"
+                    size="small"
+                    startIcon={<AddIcon color="secondary" />}
+                    onClick={handleAddChangesCityField}
+                  >
+                    <Typography
+                      variant="subtitle2"
+                      textTransform={"capitalize"}
+                      color="secondary"
+                    >
+                      Add destination
+                    </Typography>
+                  </Button>
                 }
-                input={<Typography variant="h6">Add destination</Typography>}
               />
-              <TextField
-                label="Date of Trip"
-                type="date"
-                value={data.date}
-                onChange={(e) => setData({ ...data, date: e.target.value })}
-                required
-                fullWidth
-                sx={{ marginBottom: 2 }}
-                variant="outlined"
-                InputLabelProps={{ shrink: true }}
-              />
-              <TextField
-                label="Number of Passengers"
-                type="number"
-                value={data.passengers}
-                onChange={(e) =>
-                  setData({
-                    ...data,
-                    passengers: parseInt(e.target.value, 10),
-                  })
+              <Row
+                input={
+                  <TextField
+                    label="Date of Trip"
+                    type="date"
+                    value={data.date}
+                    onChange={(e) => setData({ ...data, date: e.target.value })}
+                    required
+                    fullWidth
+                    variant="outlined"
+                    InputLabelProps={{ shrink: true }}
+                  />
                 }
-                required
-                fullWidth
-                variant="outlined"
-                inputProps={{ min: 1 }}
-                sx={{ marginBottom: 2 }}
+              />
+              <Row
+                input={
+                  <TextField
+                    label="Number of Passengers"
+                    type="number"
+                    value={data.passengers}
+                    onChange={(e) =>
+                      setData({
+                        ...data,
+                        passengers: parseInt(e.target.value, 10),
+                      })
+                    }
+                    required
+                    fullWidth
+                    variant="outlined"
+                    inputProps={{ min: 1 }}
+                  />
+                }
               />
             </Grid>
-            <Button variant="contained" color="primary" type="submit">
+            <Button variant="contained" color="secondary" type="submit">
               Search
             </Button>
           </form>
