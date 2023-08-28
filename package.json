@@ -19,7 +19,7 @@
     "query-string": "^8.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-leaflet": "^3.2.0",
+    "react-leaflet": "^4",
     "leaflet": "^1.7.1",
     "react-router-dom": "^6.15.0",
     "vite-plugin-svgr": "^3.2.0"

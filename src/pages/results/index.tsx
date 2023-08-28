@@ -2,20 +2,15 @@ import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
   Typography,
-  List,
-  ListItem,
-  ListItemText,
   CircularProgress,
   Divider,
 } from "@mui/material";
-import {
-  calculateDistance,
-  Distance,
-  City,
-  citiesDatabase,
-} from "@/services/api";
+import { calculateDistance, Distance, citiesDatabase } from "@/services/api";
 import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; // Import Leaflet CSS for proper styling
+
+import CriteriaSection from "@/components/CriterialSection";
+import DistancesSection from "@/components/DistancesSection";
 
 const Results: React.FC = () => {
   const [searchParams] = useSearchParams();
@@ -47,7 +42,12 @@ const Results: React.FC = () => {
 
   return (
     <>
-      <Typography color="text.primary" variant="h4">
+      <Typography
+        color="secondary"
+        variant="h5"
+        textTransform={"uppercase"}
+        fontWeight={"bold"}
+      >
         Search Results
       </Typography>
       {loading ? (
@@ -58,65 +58,16 @@ const Results: React.FC = () => {
         </Typography>
       ) : (
         <>
-          <div style={{ marginTop: "20px" }}>
-            <Typography variant="h6" color="primary" sx={{ fontWeight: "bold" }}>
-              Search Criteria:
-            </Typography>
-            <List>
-              <ListItem>
-                <ListItemText primary={`From: ${queryParams.from}`} />
-              </ListItem>
-              {queryParams.changes && (
-                <ListItem>
-                  <ListItemText
-                    primary={`Change Cities: ${queryParams.changes}`}
-                  />
-                </ListItem>
-              )}
-              <ListItem>
-                <ListItemText primary={`Destination: ${queryParams.to}`} />
-              </ListItem>
-              <ListItem>
-                <ListItemText primary={`Date of Trip: ${queryParams.date}`} />
-              </ListItem>
-              <ListItem>
-                <ListItemText
-                  primary={`Number of Passengers: ${queryParams.passengers}`}
-                />
-              </ListItem>
-            </List>
-          </div>
+          <CriteriaSection
+            from={queryParams.from}
+            changes={queryParams.changes}
+            to={queryParams.to}
+            date={queryParams.date}
+            passengers={queryParams.passengers}
+          />
           <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
-          <div>
-            <Typography
-              variant="h6"
-              color="primary"
-              sx={{
-                fontWeight: "bold",
-              }}
-            >
-              Distances:
-            </Typography>
-            <List>
-              {resultData.distances.map((distance, index) => (
-                <ListItem key={index}>
-                  <ListItemText
-                    primary={`Distance from ${distance.from} to ${
-                      distance.to
-                    }: ${distance.distance.toFixed(2)} km`}
-                  />
-                </ListItem>
-              ))}
-              <ListItem>
-                <ListItemText
-                  primary={`Total Distance: ${resultData.totalDistance.toFixed(
-                    2
-                  )} km`}
-                />
-              </ListItem>
-            </List>
-          </div>
-          <Divider sx={{ margin: "20px 0"}} />
+          <DistancesSection {...resultData} />
+          <Divider sx={{ margin: "20px 0" }} />
           <div>
             <Typography
               variant="h6"
@@ -130,7 +81,7 @@ const Results: React.FC = () => {
             </Typography>
             <MapContainer
               style={{ height: "400px", marginTop: "10px", width: "500px" }}
-              center={[47, 2.3522]} // default center (Paris)
+              center={[47, 2.3522]} // approximate center of France
               zoom={5}
             >
               <TileLayer

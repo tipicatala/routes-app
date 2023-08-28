@@ -10,25 +10,19 @@ import {
   Button,
   Typography,
   Grid,
-  Container,
   Autocomplete,
-  Paper,
-  CircularProgress,
   IconButton,
-  Chip,
-  InputAdornment,
 } from "@mui/material";
 import {
   Add as AddIcon,
   LocationOn as LocationOnIcon,
   Remove as RemoveIcon,
-  CircleOutlined as CircleIcon,
 } from "@mui/icons-material";
 
 import { citiesDatabase } from "@/services/api";
-import { Dots } from "@/assets";
 
 import Row from "@/components/Row";
+import ChangesFieldSideIcons from "@/components/ChangesFieldSideIcons";
 
 const Home: React.FC = () => {
   const location = useLocation();
@@ -170,34 +164,7 @@ const Home: React.FC = () => {
                       )}
                     />
                   }
-                  leftIcon={
-                    <>
-                      <Dots
-                        style={{
-                          position: "absolute",
-                          top: "-55px",
-                          transform: "translate(-50%, 0)",
-                        }}
-                      />
-                      <CircleIcon
-                        style={{
-                          position: "absolute",
-                          top: "-8px",
-                          width: "12px",
-                          height: "12px",
-                          transform: "translate(-50%, 0)",
-                        }}
-                        color="primary"
-                      />
-                      <Dots
-                        style={{
-                          position: "absolute",
-                          bottom: "-54px",
-                          transform: "translate(-50%, 0)",
-                        }}
-                      />
-                    </>
-                  }
+                  leftIcon={<ChangesFieldSideIcons />}
                   rightIcon={
                     <IconButton
                       onClick={() => handleRemoveChangesCityField(index)}
