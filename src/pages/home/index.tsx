@@ -110,7 +110,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <Container component={Paper} style={{ padding: "20px", maxWidth: "600px" }}>
+    <>
       <Row
         input={
           <Typography variant="h4" color="secondary.main">
@@ -289,7 +289,7 @@ const Home: React.FC = () => {
           </form>
         </Grid>
       </Grid>
-    </Container>
+    </>
   );
 };
 

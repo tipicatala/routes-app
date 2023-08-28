@@ -28,7 +28,5 @@ body,
 
 #root {
   /* display: flex;
-  overflow: scroll;
-  flex-wrap: wrap-reverse;
-  align-content: center; */
+  align-items: center; */
 }

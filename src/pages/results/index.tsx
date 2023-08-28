@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import {
-  Container,
-  Paper,
   Typography,
   List,
   ListItem,
@@ -48,14 +46,7 @@ const Results: React.FC = () => {
   }, [queryParams]);
 
   return (
-    <Container
-      component={Paper}
-      style={{
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)",
-      }}
-    >
+    <>
       <Typography color="text.primary" variant="h4">
         Search Results
       </Typography>
@@ -102,7 +93,6 @@ const Results: React.FC = () => {
               color="primary"
               sx={{
                 fontWeight: "bold",
-                marginTop: "20px",
               }}
             >
               Distances:
@@ -126,7 +116,7 @@ const Results: React.FC = () => {
               </ListItem>
             </List>
           </div>
-          <Divider sx={{ marginTop: "20px", marginBottom: "20px" }} />
+          <Divider sx={{ margin: "20px 0"}} />
           <div>
             <Typography
               variant="h6"
@@ -140,7 +130,7 @@ const Results: React.FC = () => {
             </Typography>
             <MapContainer
               style={{ height: "400px", marginTop: "10px", width: "500px" }}
-              center={[48.8566, 2.3522]} // default center (Paris)
+              center={[47, 2.3522]} // default center (Paris)
               zoom={5}
             >
               <TileLayer
@@ -167,7 +157,7 @@ const Results: React.FC = () => {
           </div>
         </>
       )}
-    </Container>
+    </>
   );
 };
 
