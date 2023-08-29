@@ -3,7 +3,7 @@ import { BrowserRouter } from "react-router-dom";
 
 import Home from "@/pages/home";
 
-test("adds and removes changes cities and submits form", () => {
+test("adds changes cities and submits form", () => {
   const { getByText, getByLabelText } = render(
     <BrowserRouter>
       <Home />

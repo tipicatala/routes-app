@@ -11,4 +11,5 @@ export default {
   },
   testEnvironment: "jsdom",
   errorOnDeprecated: false,
+  setupFilesAfterEnv: ["<rootDir>/src/setupTests.ts"],
 };

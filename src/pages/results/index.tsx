@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import {
-  Typography,
-  CircularProgress,
-  Divider,
-} from "@mui/material";
+import { Typography, CircularProgress, Divider } from "@mui/material";
 import { calculateDistance, Distance, citiesDatabase } from "@/services/api";
 import { MapContainer, TileLayer, Polyline } from "react-leaflet";
 import "leaflet/dist/leaflet.css"; // Import Leaflet CSS for proper styling
@@ -90,6 +86,8 @@ const Results: React.FC = () => {
               />
               {/* Render route line */}
               <Polyline
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                //@ts-ignore
                 positions={resultData.distances.map((distance) => {
                   const fromCity = citiesDatabase.find(
                     (city) => city.name === distance.from
