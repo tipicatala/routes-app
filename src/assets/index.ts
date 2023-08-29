@@ -1,1 +1,1 @@
-export { ReactComponent as Dots } from "./dots.svg";
+export { default as dots } from "./dots.svg";

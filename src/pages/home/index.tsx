@@ -12,6 +12,7 @@ import {
   Grid,
   Autocomplete,
   IconButton,
+  AutocompleteRenderInputParams,
 } from "@mui/material";
 import {
   Add as AddIcon,
@@ -67,7 +68,7 @@ const Home: React.FC = () => {
   };
 
   const handleCityInputChange = (
-    event: React.ChangeEvent<object>,
+    _: React.ChangeEvent<object>,
     value: string
   ) => {
     if (value) {
@@ -103,6 +104,15 @@ const Home: React.FC = () => {
     setData({ ...data, changes: updatedChanges });
   };
 
+  const getAutocompleteProps = (label: string) => ({
+    options: filteredCities,
+    loading: loadingCities,
+    onInputChange: handleCityInputChange,
+    renderInput: (params: AutocompleteRenderInputParams) => (
+      <TextField label={label} {...params} variant="outlined" fullWidth />
+    ),
+  });
+
   return (
     <>
       <Row
@@ -120,48 +130,26 @@ const Home: React.FC = () => {
                 input={
                   <Autocomplete
                     id="From"
-                    options={filteredCities}
-                    loading={loadingCities}
-                    onInputChange={handleCityInputChange}
+                    {...getAutocompleteProps("From")}
                     value={data.from}
-                    onChange={(event, value) =>
+                    onChange={(_, value) =>
                       setData({ ...data, from: value || "" })
                     }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="From"
-                        required
-                        variant="outlined"
-                        fullWidth
-                      />
-                    )}
                   />
                 }
                 leftIcon={<LocationOnIcon color={"primary"} />}
               />
               {data.changes.map((city, index) => (
                 <Row
+                  key={`Changes City ${index + 1}`}
                   input={
                     <Autocomplete
                       id={`Changes-${index}`}
-                      options={filteredCities}
-                      loading={loadingCities}
-                      onInputChange={(_, value) =>
-                        handleCityInputChange(_, value)
-                      }
+                      {...getAutocompleteProps(`Changes City ${index + 1}`)}
                       value={city}
                       onChange={(_, value) =>
                         handleChangesCityChange(index, value || "")
                       }
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label={`Changes City ${index + 1}`}
-                          variant="outlined"
-                          fullWidth
-                        />
-                      )}
                     />
                   }
                   leftIcon={<ChangesFieldSideIcons />}
@@ -178,22 +166,11 @@ const Home: React.FC = () => {
                 input={
                   <Autocomplete
                     id="To"
-                    options={filteredCities}
-                    loading={loadingCities}
-                    onInputChange={handleCityInputChange}
+                    {...getAutocompleteProps("To")}
                     value={data.to}
-                    onChange={(event, value) =>
+                    onChange={(_, value) =>
                       setData({ ...data, to: value || "" })
                     }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        label="To"
-                        required
-                        variant="outlined"
-                        fullWidth
-                      />
-                    )}
                   />
                 }
                 leftIcon={<LocationOnIcon color="primary" />}
