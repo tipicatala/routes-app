@@ -198,6 +198,9 @@ const Home: React.FC = () => {
                   <TextField
                     label="Date of Trip"
                     type="date"
+                    inputProps={{
+                      min: new Date().toISOString().split("T")[0], // Set min to today's date
+                    }}
                     value={data.date}
                     onChange={(e) => setData({ ...data, date: e.target.value })}
                     required
